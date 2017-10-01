@@ -1,0 +1,42 @@
+# Configuration for audioct tools
+# format is field=value
+
+# First run, copy global config to user-config
+[ ! -f "$HOME/.config/audioct.conf" ] && \
+  grep -v ".config" @@SYSCONFDIR@@/audioct.conf > \
+    $HOME/.config/audioct.conf
+. $HOME/.config/audioct.conf
+
+####################################
+#########   Some globals   #########
+
+# whether to delete the source files
+# true or false
+remove_source=false
+
+######   end global section   ######
+####################################
+
+####################################
+#########   mp3 section   ##########
+
+# mp3 quality lame_presets, see man  lame for details
+# lame_preset=medium
+# lame_preset=standard
+lame_preset=extreme
+# lame_preset=insane
+
+########   end mp3 section   #######
+####################################
+
+####################################
+##########   ogg section   #########
+
+# ogg output quality setting
+# numerical value from 1 to 10
+# 1 is low, 10 is high
+# 1 decimal place accepted for fine tuning
+ogg_quality=7
+
+########   end ogg section   #######
+####################################
