@@ -1,0 +1,11 @@
+#!@@SHELL@@
+while read flac
+do tmp=$(mktemp)
+   metaflac --export-tags-to=- "${flac}" | sed -e 's/\=/\=\"/g' -e 's/$/\"/g' > ${tmp}
+   . $tmp
+   flac -cd "${flac}" | lame --preset extreme --tt "${TITLE}" --ta "${ARTIST}" \
+	--tl "${ALBUM}" --ty "${DATE}" --tl "${TRACKNUMBER}" --tg "${GENRE}" \
+	- "${TRACKNUMBER} - ${TITLE}.mp3"
+   rm $tmp
+done <<< $(ls -1 *.flac)
+
