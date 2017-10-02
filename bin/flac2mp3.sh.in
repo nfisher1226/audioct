@@ -20,6 +20,13 @@
 #  
 #  
 
+cat<<EOF
+
+Copyright (C) 2017 Nathan Fisher
+flac2mp3.sh comes with ABSOLUTELY NO WARRANTY.  This program is free
+software. You are welcome to redistribute it under certain conditions.
+EOF
+
 # Get our canonical prefix and read in functions
 SELF="$0"
 BINDIR="${SELF%/*}"
@@ -41,6 +48,6 @@ do tmp=$(mktemp)
 	--tl "${ALBUM}" --ty "${DATE}" --tl "${TRACKNUMBER}" --tg "${GENRE}" \
 	- "${TRACKNUMBER} - ${TITLE}.mp3"
    rm $tmp
-   [ "${remove_source}" = "false" ] || rm -rf "${flac}"
+   [ "$remove_source" = "true" ] && rm -rf "${flac}" || true
 done <<< $(ls -1 *.flac)
 

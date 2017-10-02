@@ -1,5 +1,5 @@
-# audioct
-Audio conversion tools
+Audioct: Audio conversion tools
+===============================
 
 Some basic shell scripts for converting from one audio format to another
 with tagging support. In general, tag your source files first and the

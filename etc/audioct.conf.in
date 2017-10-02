@@ -5,7 +5,6 @@
 [ ! -f "$HOME/.config/audioct.conf" ] && \
   grep -v ".config" @@SYSCONFDIR@@/audioct.conf > \
     $HOME/.config/audioct.conf
-. $HOME/.config/audioct.conf
 
 ####################################
 #########   Some globals   #########
@@ -40,3 +39,6 @@ ogg_quality=7
 
 ########   end ogg section   #######
 ####################################
+
+# Read in user config
+. $HOME/.config/audioct.conf
