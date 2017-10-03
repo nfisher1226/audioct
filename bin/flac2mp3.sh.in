@@ -45,7 +45,7 @@ do tmp=$(mktemp)
    [ "${TRACKNUMBER}" = "" ] && TRACKNUMBER=00
    [ "${DATE}" = "" ] && DATE=1900
    flac -cd "${flac}" | lame --preset ${lame_preset} --tt "${TITLE}" --ta "${ARTIST}" \
-	--tl "${ALBUM}" --ty "${DATE}" --tl "${TRACKNUMBER}" --tg "${GENRE}" \
+	--tl "${ALBUM}" --ty "${DATE}" --tn "${TRACKNUMBER}" --tg "${GENRE}" \
 	- "${TRACKNUMBER} - ${TITLE}.mp3"
    rm $tmp
    [ "$remove_source" = "true" ] && rm -rf "${flac}" || true
