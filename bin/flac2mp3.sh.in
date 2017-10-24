@@ -35,7 +35,9 @@ PREFIX="${BINDIR%/*}"
 
 while read flac
 do tmp=$(mktemp)
-   metaflac --export-tags-to=- "${flac}" | sed -e 's/\=/\=\"/g' -e 's/$/\"/g' > ${tmp}
+   metaflac --export-tags-to=- "${flac}" | sed -e 's/\=/\=\"/g' \
+     -e 's/$/\"/g' | egrep 'TITLE|ARTIST|ALBUM|GENRE|TRACKNUMBER|DATE' \
+     > ${tmp}
    . $tmp
    # Make sure the tag fields aren't empty
    [ "${TITLE}" = "" ] && TITLE="$(basename \"${flac}\" .flac)"
@@ -44,9 +46,9 @@ do tmp=$(mktemp)
    [ "${GENRE}" = "" ] && GENRE=Rock
    [ "${TRACKNUMBER}" = "" ] && TRACKNUMBER=00
    [ "${DATE}" = "" ] && DATE=1900
-   flac -cd "${flac}" | lame --preset ${lame_preset} --tt "${TITLE}" --ta "${ARTIST}" \
-	--tl "${ALBUM}" --ty "${DATE}" --tn "${TRACKNUMBER}" --tg "${GENRE}" \
-	- "${TRACKNUMBER} - ${TITLE}.mp3"
+   flac -cd "${flac}" | lame --preset ${lame_preset} --tt "${TITLE}" \
+     --ta "${ARTIST}" --tl "${ALBUM}" --ty "${DATE}" --tn \
+     "${TRACKNUMBER}" --tg "${GENRE}" - "${TRACKNUMBER} - ${TITLE}.mp3"
    rm $tmp
    [ "$remove_source" = "true" ] && rm -rf "${flac}" || true
 done <<< $(ls -1 *.flac)
