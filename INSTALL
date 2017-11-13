@@ -1,0 +1,9 @@
+Requires GNU make. On some systems this is installed as gmake.
+
+(g)make
+(g)make install
+
+By default this installs everything to /usr/local. This can be fine
+tuned by specifying the PREFIX and DESTDIR environment variables.
+
+(g)make PREFIX=/usr DESTDIR=${PWD}/pkg install clean
