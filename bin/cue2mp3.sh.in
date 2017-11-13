@@ -55,9 +55,9 @@ TTN="$(find . -maxdepth 1 -type f -name '*.wav' | grep -v "$FILE" \
 
 while read w
   do name="$(basename "$w" .wav)"
-  TN="$(cut -f 1 -d ' ' <<< $name)/$TTL"
+  TN="$(cut -f 1 -d ' ' <<< $name)"
   TT="$(cut -f 3- -d ' ' <<< $name)"
-  lame --preset ${lame_preset} --tt "$TT" --tn "$TN" --tl "$TL" \
-    --ta "$TA" --ty "$TY" --tg "$TG" "${w}" "${name}.mp3"
+  lame --preset ${lame_preset} --tt "$TT" --tn "${TN}/${TTN}" \
+    --tl "$TL" --ta "$TA" --ty "$TY" --tg "$TG" "${w}" "${name}.mp3"
   [ "$remove_source" = "true" ] && rm -rf "$w" || true
 done <<< $(ls -1 *.wav | grep -v "$FILE")

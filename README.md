@@ -5,8 +5,11 @@ Some basic shell scripts for converting from one audio format to another
 with tagging support. In general, tag your source files first and the
 output files will be tagged appropriately.
 
-Requires bash, zsh or ksh
-flac2mp3 and flac2ogg require metaflac and flac
-flac2mp3 wav2mp3 cue2mp3 require lame
-flac2ogg wav2ogg cue2ogg require oggenc
-cue2mp3 cue2ogg require shntool
+flac2mp3.sh: Converts a directory of flac files to mp3
+flac2ogg.sh: Converts a directory of flac files to ogg
+wav2mp3.sh: Converts a directory of wav files to mp3 (no tagging)
+wav2ogg.sh: Converts a directory of wav files to ogg (no tagging)
+cue2mp3.sh: Takes a valid cue sheet as an argument and splits it into
+	individual mp3 files
+cue2ogg.sh: Takes a valid cue sheet as an argument and splits it into
+	individual ogg files

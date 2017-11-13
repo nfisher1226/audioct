@@ -1,9 +1,16 @@
-Requires GNU make. On some systems this is installed as gmake.
+Requirements:
+Either bash, zsh or ksh must be on your system even if it's not the
+default shell. Requires GNU make to install. On some systems (FreeBSD)
+this is installed as gmake.
+flac2mp3 and flac2ogg require metaflac and flac
+flac2mp3 wav2mp3 cue2mp3 require lame
+flac2ogg wav2ogg cue2ogg require oggenc
+cue2mp3 cue2ogg require shntool
 
-(g)make
-(g)make install
+To install:
+	(g)make
+	(g)make install
 
 By default this installs everything to /usr/local. This can be fine
 tuned by specifying the PREFIX and DESTDIR environment variables.
-
-(g)make PREFIX=/usr DESTDIR=${PWD}/pkg install clean
+	(g)make PREFIX=/usr DESTDIR=${PWD}/pkg install clean
