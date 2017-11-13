@@ -5,7 +5,7 @@ SYSCONFDIR ?= ${PREFIX}/etc
 BINDIR = ${PREFIX}/bin
 DSHELL = $(shell which bash || which zsh || which ksh)
 
-BIN_OBJS = bin/flac2mp3.sh bin/flac2ogg.sh bin/wav2mp3.sh
+BIN_OBJS = bin/flac2mp3.sh bin/flac2ogg.sh bin/wav2mp3.sh bin/wav2ogg.sh
 CONF_OBJS = etc/audioct.conf
 
 all: config.mk ${CONF_OBJS} ${BIN_OBJS}
@@ -19,21 +19,8 @@ config.mk:
 	echo PREFIX ?= ${PREFIX} > config.mk
 	echo SYSCONFDIR ?= ${SYSCONFDIR} >> config.mk
 
-bin/flac2mp3.sh:
-	sed "s%@@SHELL@@%${DSHELL}%" bin/flac2mp3.sh.in > \
-		bin/flac2mp3.sh
-
-bin/flac2ogg.sh:
-	sed "s%@@SHELL@@%${DSHELL}%" bin/flac2ogg.sh.in > \
-		bin/flac2ogg.sh
-
-bin/wav2mp3.sh:
-	sed "s%@@SHELL@@%${DSHELL}%" bin/wav2mp3.sh.in > \
-		bin/wav2mp3.sh
-
-bin/wav2ogg.sh:
-	sed "s%@@SHELL@@%${DSHELL}%" bin/wav2ogg.sh.in > \
-		bin/wav2ogg.sh
+$(BIN_OBJS): %.sh: %.sh.in
+	sed "s%@@SHELL@@%${DSHELL}%" $< > $@
 
 install-conf: all
 	install -d ${DESTDIR}${SYSCONFDIR}
