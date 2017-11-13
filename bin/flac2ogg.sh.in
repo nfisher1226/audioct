@@ -33,6 +33,9 @@ BINDIR="${SELF%/*}"
 PREFIX="${BINDIR%/*}"
 . $PREFIX/etc/audioct.conf
 
+# Total tracks
+TTN="$(find . -maxdepth 1 -type f -name '*.flac' | wc -l)"
+
 while read flac
 do tmp=$(mktemp)
    metaflac --export-tags-to=- "${flac}" | sed -e 's/\=/\=\"/g' \
@@ -47,7 +50,7 @@ do tmp=$(mktemp)
    [ "${TRACKNUMBER}" = "" ] && TRACKNUMBER=00
    [ "${DATE}" = "" ] && DATE=1900
    flac -cd "${flac}" | oggenc -q ${ogg_quality} -t "${TITLE}" -a "${ARTIST}" \
-	-l "${ALBUM}" -d "${DATE}" -N "${TRACKNUMBER}" -G "${GENRE}" \
+	-l "${ALBUM}" -d "${DATE}" -N "${TRACKNUMBER}/${TTN}" -G "${GENRE}" \
 	-o "${TRACKNUMBER} - ${TITLE}.ogg" -
    rm $tmp
    [ "$remove_source" = "true" ] && rm -rf "${flac}" || true
