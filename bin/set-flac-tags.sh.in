@@ -1,5 +1,5 @@
 #!@@SHELL@@
-#  wav2ogg.sh
+#  set-flac-tags.sh
 #  
 #  Copyright 2017 Nathan Fisher <nfisher.sr@gmail.com>
 #  
@@ -51,17 +51,19 @@ read DISC
 echo -n "Enter Total Discs: "
 read TOTALDISCS
 
+metaflac --set-tag="ARTIST=${ARTIST}" *.flac
+metaflac --set-tag="ALBUM=${ALBUM}" *.flac
+metaflac --set-tag="DATE=${DATE}" *.flac
+metaflac --set-tag="GENRE=${GENRE}" *.flac
+
 while read T
 do TN=$(cut -f 1 -d ' ') <<< $T
   TT=$(basename "${T}" .flac | cut -f 3- -d ' ')
   metaflac --set-tag="TITLE=${TT}" "${T}"
-  metaflac --set-tag="ARTIST=${ARTIST}" "${T}"
-  metaflac --set-tag="ALBUM=${ALBUM}" "${T}"
-  metaflac --set-tag="DATE=${DATE}" "${T}"
-  metaflac --set-tag="GENRE=${GENRE}" "${T}"
   metaflac --set-tag="TRACKNUMBER=${TN}" "${T}"
-  metaflac --set-tag="TOTALTRACKS=${TTN}" "${T}"
-  metaflac --set-tag="DISCNUMBER=${DISC}" "${T}"
-  metaflac --set-tag="TOTALDISCS=${TOTALDISCS}" "${T}"
 done <<< $(ls -1 *.flac)
+
+metaflac --set-tag="TOTALTRACKS=${TTN}" *.flac
+metaflac --set-tag="DISCNUMBER=${DISC}" *.flac
+metaflac --set-tag="TOTALDISCS=${TOTALDISCS}" *.flac
 
