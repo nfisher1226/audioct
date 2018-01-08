@@ -13,3 +13,5 @@ cue2mp3.sh: Takes a valid cue sheet as an argument and splits it into
 	individual mp3 files
 cue2ogg.sh: Takes a valid cue sheet as an argument and splits it into
 	individual ogg files
+set-flac-tags.sh: Automatically tags all flac files in a directory.
+	Filename format should be "Track - Title.flac"

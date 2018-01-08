@@ -6,7 +6,7 @@ BINDIR = ${PREFIX}/bin
 DSHELL = $(shell which bash || which zsh || which ksh)
 
 BIN_OBJS = bin/flac2mp3.sh bin/flac2ogg.sh bin/wav2mp3.sh \
-bin/wav2ogg.sh bin/cue2mp3.sh bin/cue2ogg.sh
+bin/wav2ogg.sh bin/cue2mp3.sh bin/cue2ogg.sh bin/set-flac-tags.sh
 CONF_OBJS = etc/audioct.conf
 
 all: config.mk ${CONF_OBJS} ${BIN_OBJS}
