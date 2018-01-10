@@ -57,10 +57,8 @@ metaflac --set-tag="DATE=${DATE}" *.flac
 metaflac --set-tag="GENRE=${GENRE}" *.flac
 
 while read T
-do TN=$(cut -f 1 -d ' ')<<<${T}
-  TT=$(basename "${T}" .flac | cut -f 3- -d ' ')
-  metaflac --set-tag="TITLE=${TT}" "${T}"
-  metaflac --set-tag="TRACKNUMBER=${TN}" "${T}"
+do metaflac --set-tag="TITLE=$(basename "${T}" .flac | cut -f 3- -d ' ')" "${T}"
+  metaflac --set-tag="TRACKNUMBER=$(cut -f 1 -d ' '<<<${T})" "${T}"
 done<<<$(ls -1 *.flac)
 
 metaflac --set-tag="TOTALTRACKS=${TTN}" *.flac
