@@ -33,8 +33,38 @@ BINDIR="${SELF%/*}"
 PREFIX="${BINDIR%/*}"
 . $PREFIX/etc/audioct.conf
 
-while read w
-  do name="$(basename "$w" .wav)"
-  lame --preset ${lame_preset} "${w}" "${name}.mp3"
-  [ "$remove_source" = "true" ] && rm -rf "${flac}" || true
+# Optionally set variables in a file
+[ -f tags.txt ] && . tags.txt
+
+# Get the total tracks
+TTN="$(find . -maxdepth 1 -type f -name '*.wav' | wc -l | tr -d ' ')"
+
+# User input
+if [ "${ARTIST}" = "" ]
+  then echo -n "Enter Artist name: "
+  read ARTIST ; fi
+if [ "${ALBUM}" = "" ]
+  then echo -n "Enter Album name: "
+  read ALBUM ; fi
+if [ "${GENRE}" = "" ]
+  then echo -n "Enter Genre: "
+  read GENRE ; fi
+if [ "${DATE}" = "" ]
+  then echo -n "Enter Release Date: "
+  read DATE ; fi
+if [ "${DISC}" = "" ]
+  then echo -n "Enter Disc Number: "
+  read DISC ; fi
+if [ "${TOTALDISCS}" = "" ]
+  then echo -n "Enter Total Discs: "
+  read TOTALDISCS ; fi
+
+while read T
+  do TITLE="$(basename "${T}" .wav | cut -f 3- -d ' ')"
+  TRACKNUMBER="$(cut -f 1 -d ' '<<<${T})"
+  lame --preset ${lame_preset} --tt "${TITLE}" \
+    --tn "${TRACKNUMBER}/${TOTALTRACKS}" --tl "${ALBUM}" \
+    --ta "${ARTIST}" --ty "${DATE}" --tg "${GENRE}" "${T}" \
+    "${TRACKNUMBER} - ${TITLE}.mp3"
+  [ "$remove_source" = "true" ] && rm -rf "${T}" || true
 done <<< $(ls -1 *.wav)

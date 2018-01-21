@@ -40,6 +40,7 @@ PREFIX="${BINDIR%/*}"
 metaflac --remove-all-tags *.flac
 # Get the total tracks
 TTN="$(find . -maxdepth 1 -type f -name '*.flac' | wc -l | tr -d ' ')"
+
 # User input
 if [ "${ARTIST}" = "" ]
   then echo -n "Enter Artist name: "

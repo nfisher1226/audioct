@@ -35,8 +35,11 @@ PREFIX="${BINDIR%/*}"
 
 # Read argument
 CUE="$1"
-[ "$CUE" = "" ] && exit 1
+if [ "$CUE" = "" ]
+  then echo "You must specify a valid cue file"
+fi && exit 1
 FILE="$(grep 'FILE ' "$CUE" | head -n 1 | cut -f 2 -d '"')"
+[ -f "$FILE" ] || exit 1
 
 TL="$(grep 'TITLE ' "${CUE}" | head -n 1 | cut -f 2 -d '"')"
 TA="$(grep 'PERFORMER ' "${CUE}" | head -n 1 | cut -f 2 -d '"')"

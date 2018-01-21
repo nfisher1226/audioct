@@ -64,5 +64,5 @@ do TITLE="$(basename "${T}" .flac | cut -f 3- -d ' ')"
   vorbiscomment -a "${T}" -w -t "ARTIST=${ARTIST}" -t "ALBUM=${ALBUM}" \
     -t "DATE=${DATE}" -t "GENRE=${GENRE}" -t "TITLE=${TITLE}" \
     -t "TRACKNUMBER=${TRACKNUMBER}" -t "TOTALTRACKS=${TOTALTRACKS}" \
-    -t "DISCNUMBER=${DISCNUMBER}" -t "TOTALDISCS=${TOTALDISCS}" 
+    -t "DISCNUMBER=${DISCNUMBER}" -t "TOTALDISCS=${TOTALDISCS}"
 done<<<$(ls -1 *.ogg)
