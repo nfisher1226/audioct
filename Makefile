@@ -20,13 +20,12 @@ CONF_OBJS = etc/audioct.conf
 all: config.mk ${CONF_OBJS} ${BIN_OBJS}
 	@echo "Now type \"make install\"."
 
-etc/audioct.conf:
-	sed "s%@@SYSCONFDIR@@%${SYSCONFDIR}%" etc/audioct.conf.in > \
-		etc/audioct.conf
-
 config.mk:
 	echo PREFIX ?= ${PREFIX} > config.mk
 	echo SYSCONFDIR ?= ${SYSCONFDIR} >> config.mk
+
+$(CONF_OBJS): %.conf: %.conf.in
+	sed "s%@@SYSCONFDIR@@%${SYSCONFDIR}%" $< > $@
 
 $(BIN_OBJS): %.sh: %.sh.in
 	sed "s%@@SHELL@@%${DSHELL}%" $< > $@
@@ -35,25 +34,27 @@ install-conf: all
 	install -d ${DESTDIR}${SYSCONFDIR}
 	install -m 644 etc/audioct.conf ${DESTDIR}${SYSCONFDIR}/audioct.conf
 
-install-bin: install-conf
+install-bin: all
 	install -d ${DESTDIR}${BINDIR}
 	for bin in ${BIN_OBJS} ; \
 		do install -m 755 $${bin} ${DESTDIR}${BINDIR} ; done
 
-install: all install-bin
+install: install-bin install-conf
 
 uninstall-bin:
 	for obj in ${BIN_OBJS} ; \
-		do [ -f ${DESTDIR}${BINDIR}/$${obj} ] && \
-		unlink ${DESTDIR}${BINDIR}/$${obj} || true ; done
+		do [ -f ${DESTDIR}${PREFIX}/$${obj} ] && \
+		unlink ${DESTDIR}${PREFIX}/$${obj} || true ; done
 
-uninstall: uninstall-bin
+uninstall-conf:
 	[ -f ${DESTDIR}${SYSCONFDIR}/audioct.conf ] && \
 		unlink ${DESTDIR}${SYSCONFDIR}/audioct.conf || true
+
+uninstall: uninstall-bin uninstall-conf
 
 clean:
 	for obj in config.mk ${CONF_OBJS} ${BIN_OBJS} ; \
 		do [ -f $${obj} ] && unlink $${obj} || true ; done
 
 .PHONY: install-conf install-bin install uninstall-bin \
-	uninstall clean
+	uninstall-conf uninstall clean
