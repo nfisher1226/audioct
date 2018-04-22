@@ -40,7 +40,7 @@ while read flac
 do tmp=$(mktemp)
    metaflac --export-tags-to=- "${flac}" | sed -e 's/\=/\=\"/g' \
      -e 's/$/\"/g' | egrep 'TITLE|ARTIST|ALBUM|GENRE|TRACKNUMBER|DATE' \
-     > ${tmp}
+     | grep -v 'ALBUM ARTIST' > ${tmp}
    . $tmp
    # Make sure the tag fields aren't empty
    [ "${TITLE}" = "" ] && TITLE="$(basename \"${flac}\" .flac)"

@@ -40,5 +40,17 @@ ogg_quality=7
 ########   end ogg section   #######
 ####################################
 
+####################################
+##########   flac section   #########
+
+# flac compression level setting
+# numerical value from 1 to 10
+# 0 is lowest compression, higher file size but fastest
+# 8 is highest, lower file size but slow
+flac_compression=5
+
+########   end flac section   #######
+####################################
+
 # Read in user config
 . $HOME/.config/audioct.conf
