@@ -54,8 +54,11 @@ uninstall-conf:
 uninstall: uninstall-bin uninstall-conf
 
 clean:
-	for obj in config.mk ${CONF_OBJS} ${BIN_OBJS} ; \
+	for obj in ${CONF_OBJS} ${BIN_OBJS} ; \
 		do [ -f $${obj} ] && unlink $${obj} || true ; done
+
+distclean: clean
+	unlink config.mk || true
 
 .PHONY: install-conf install-bin install uninstall-bin \
 	uninstall-conf uninstall clean
