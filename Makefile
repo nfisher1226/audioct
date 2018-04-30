@@ -13,7 +13,8 @@ bin/wav2ogg.sh \
 bin/cue2mp3.sh \
 bin/cue2ogg.sh \
 bin/set-flac-tags.sh \
-bin/set-ogg-tags.sh
+bin/set-ogg-tags.sh \
+bin/set-mp3-tags.sh
 
 CONF_OBJS = etc/audioct.conf
 
