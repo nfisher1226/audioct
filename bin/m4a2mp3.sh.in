@@ -63,7 +63,7 @@ while read T
   do TITLE="$(basename "${T}" .m4a | cut -f 3- -d ' ')"
   TRACKNUMBER="$(cut -f 1 -d ' '<<<${T})"
   faad --stdio "${T}" | lame --preset ${lame_preset} --tt "${TITLE}" \
-    --tn "${TRACKNUMBER}/${TOTALTRACKS}" --tl "${ALBUM}" \
+    --tn "${TRACKNUMBER}/${TTN}" --tl "${ALBUM}" \
     --ta "${ARTIST}" --ty "${DATE}" --tg "${GENRE}" - \
     "${TRACKNUMBER} - ${TITLE}.mp3"
   [ "$remove_source" = "true" ] && rm -rf "${T}" || true
