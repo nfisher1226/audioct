@@ -3,7 +3,8 @@ Either bash, zsh or ksh must be on your system even if it's not the
 default shell. Requires GNU make to install. On some systems (FreeBSD)
 this is installed as gmake.
 flac2mp3 and flac2ogg require metaflac and flac
-flac2mp3 wav2mp3 cue2mp3 require lame
+flac2mp3 wav2mp3 m4a2mp3 cue2mp3 require lame
+m4a2mp3 require faad2
 flac2ogg wav2ogg cue2ogg require oggenc
 cue2mp3 cue2ogg require shntool
 set-flac-tags.sh requires metaflac

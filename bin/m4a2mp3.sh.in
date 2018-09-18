@@ -1,0 +1,70 @@
+#!@@SHELL@@
+#  m4a2mp3.sh
+#  
+#  Copyright 2017 Nathan Fisher <nfisher.sr@gmail.com>
+#  
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#  
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#  
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#  
+#  
+
+cat<<EOF
+
+Copyright (C) 2017 Nathan Fisher
+m4a2mp3.sh comes with ABSOLUTELY NO WARRANTY.  This program is free
+software. You are welcome to redistribute it under certain conditions.
+EOF
+
+# Get our canonical prefix and read in functions
+SELF="$0"
+BINDIR="${SELF%/*}"
+PREFIX="${BINDIR%/*}"
+. $PREFIX/etc/audioct.conf
+
+# Optionally set variables in a file
+[ -f tags.txt ] && . tags.txt
+
+# Get the total tracks
+TTN="$(find . -maxdepth 1 -type f -name '*.m4a' | wc -l | tr -d ' ')"
+
+# User input
+if [ "${ARTIST}" = "" ]
+  then echo -n "Enter Artist name: "
+  read ARTIST ; fi
+if [ "${ALBUM}" = "" ]
+  then echo -n "Enter Album name: "
+  read ALBUM ; fi
+if [ "${GENRE}" = "" ]
+  then echo -n "Enter Genre: "
+  read GENRE ; fi
+if [ "${DATE}" = "" ]
+  then echo -n "Enter Release Date: "
+  read DATE ; fi
+if [ "${DISC}" = "" ]
+  then echo -n "Enter Disc Number: "
+  read DISC ; fi
+if [ "${TOTALDISCS}" = "" ]
+  then echo -n "Enter Total Discs: "
+  read TOTALDISCS ; fi
+
+while read T
+  do TITLE="$(basename "${T}" .m4a | cut -f 3- -d ' ')"
+  TRACKNUMBER="$(cut -f 1 -d ' '<<<${T})"
+  faad --stdio "${T}" | lame --preset ${lame_preset} --tt "${TITLE}" \
+    --tn "${TRACKNUMBER}/${TOTALTRACKS}" --tl "${ALBUM}" \
+    --ta "${ARTIST}" --ty "${DATE}" --tg "${GENRE}" - \
+    "${TRACKNUMBER} - ${TITLE}.mp3"
+  [ "$remove_source" = "true" ] && rm -rf "${T}" || true
+done <<< $(ls -1 *.m4a)
