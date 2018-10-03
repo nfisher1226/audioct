@@ -52,12 +52,6 @@ if [ "${GENRE}" = "" ]
 if [ "${DATE}" = "" ]
   then echo -n "Enter Release Date: "
   read DATE ; fi
-if [ "${DISC}" = "" ]
-  then echo -n "Enter Disc Number: "
-  read DISC ; fi
-if [ "${TOTALDISCS}" = "" ]
-  then echo -n "Enter Total Discs: "
-  read TOTALDISCS ; fi
 
 while read T
   do TITLE="$(basename "${T}" .wav | cut -f 3- -d ' ')"
