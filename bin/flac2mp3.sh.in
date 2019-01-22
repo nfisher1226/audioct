@@ -41,7 +41,7 @@ do tmp=$(mktemp)
    metaflac --export-tags-to=- "${flac}" | sed -e 's/\=/\=\"/g' \
      -e 's/$/\"/g' -e 's:\/:_:g' -e 's:?:_:g' | \
      egrep 'TITLE|ARTIST|ALBUM|GENRE|TRACKNUMBER|DATE' \
-     | grep -v 'ALBUM ARTIST' > ${tmp}
+     | egrep -v 'ALBUM ARTIST|RELEASE DATE' > ${tmp}
    . $tmp
    # Make sure the tag fields aren't empty
    [ "${TITLE}" = "" ] && TITLE="$(basename \"${flac}\" .flac)"
