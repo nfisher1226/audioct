@@ -6,6 +6,7 @@ BINDIR = ${PREFIX}/bin
 DSHELL = $(shell which bash || which zsh || which ksh)
 
 BIN_OBJS = \
+bin/ape2mp3.sh \
 bin/ape2wav.sh \
 bin/flac2mp3.sh \
 bin/flac2ogg.sh \

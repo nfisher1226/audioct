@@ -5,6 +5,8 @@ Some basic shell scripts for converting from one audio format to another
 with tagging support. In general, tag your source files first and the
 output files will be tagged appropriately.
 
+ape2mp3.sh: Converts a directory of ape files to mp3 (calls ape2wav and
+	wav2mp3 in succession)
 ape2wav.sh: Converts a directory of ape files to wav
 flac2mp3.sh: Converts a directory of flac files to mp3
 flac2ogg.sh: Converts a directory of flac files to ogg
