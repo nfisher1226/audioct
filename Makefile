@@ -10,6 +10,7 @@ bin/ape2mp3.sh \
 bin/ape2ogg.sh \
 bin/ape2wav.sh \
 bin/flac2mp3.sh \
+bin/flac2mp3-recursive.sh \
 bin/flac2ogg.sh \
 bin/m4a2mp3.sh \
 bin/wav2mp3.sh \

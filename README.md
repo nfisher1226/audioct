@@ -11,6 +11,8 @@ ape2ogg.sh: Converts a directory of ape files to mp3 (calls ape2wav and
 	wav2ogg in succession)
 ape2wav.sh: Converts a directory of ape files to wav
 flac2mp3.sh: Converts a directory of flac files to mp3
+flac2mp3-recursive.sh: walks the directory tree under the current
+	directory, converting all flac files to mp3
 flac2ogg.sh: Converts a directory of flac files to ogg
 m4a2mp3.sh: Converts a directory of m4a files to mp3
 wav2mp3.sh: Converts a directory of wav files to mp3
