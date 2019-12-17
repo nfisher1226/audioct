@@ -34,12 +34,12 @@ PREFIX="${BINDIR%/*}"
 . $PREFIX/etc/audioct.conf
 
 D="$(pwd)"
-find . -type d | while read d
-do echo "Entering working directory ${D}/${d}"
+find "$D" -type d | while read d
+do echo "Entering working directory ${d}"
 cd "$d"
 if [ -f "$(ls -1 | grep flac | head -n 1)" ]
   then flac2mp3.sh
 fi
-echo "Leaving working directory ${D}/${d}"
+echo "Leaving working directory ${d}"
 cd "$D"
 done
