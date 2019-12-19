@@ -35,13 +35,26 @@ PREFIX="${BINDIR%/*}"
 
 D="$(pwd)"
 find "$D" -type d | while read d
-do echo
-echo "Entering working directory ${d}"
+do
+cat<<EOF
+
+#########################################
+#########################################
+Entering working directory ${d}
+
+EOF
+
 cd "$d"
 if [ -f "$(ls -1 | grep flac | head -n 1)" ]
   then flac2mp3.sh
+  else echo "Nothing to do."
 fi
-echo "Leaving working directory ${d}"
-echo
+cat<<EOF
+
+Leaving working directory ${d}
+#########################################
+#########################################
+
+EOF
 cd "$D"
 done
