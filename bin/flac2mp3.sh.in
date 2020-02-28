@@ -31,7 +31,7 @@ EOF
 SELF="$0"
 BINDIR="${SELF%/*}"
 PREFIX="${BINDIR%/*}"
-. $PREFIX/etc/audioct.conf
+. @@SYSCONFDIR@@/audioct.conf
 
 # Total tracks
 TTN="$(find . -maxdepth 1 -type f -name '*.flac' | wc -l)"

@@ -35,7 +35,8 @@ $(CONF_OBJS): %.conf: %.conf.in
 	sed "s%@@SYSCONFDIR@@%${SYSCONFDIR}%" $< > $@
 
 $(BIN_OBJS): %.sh: %.sh.in
-	sed "s%@@SHELL@@%${DSHELL}%" $< > $@
+	sed -e "s%@@SHELL@@%${DSHELL}%" \
+	    -e "s%@@SYSCONFDIR@@%${SYSCONFDIR}%" $< > $@
 
 install-conf: all
 	install -d ${DESTDIR}${SYSCONFDIR}

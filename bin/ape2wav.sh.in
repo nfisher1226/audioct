@@ -31,7 +31,7 @@ EOF
 SELF="$0"
 BINDIR="${SELF%/*}"
 PREFIX="${BINDIR%/*}"
-. $PREFIX/etc/audioct.conf
+. @@SYSCONFDIR@@/audioct.conf
 
 while read T
   do mac "${T}" "$(sed 's:.ape:.wav:'<<<${T})" -d

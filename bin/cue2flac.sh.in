@@ -31,7 +31,7 @@ EOF
 SELF="$0"
 BINDIR="${SELF%/*}"
 PREFIX="${BINDIR%/*}"
-. $PREFIX/etc/audioct.conf
+. @@SYSCONFDIR@@/audioct.conf
 
 # Read argument
 CUE="$1"

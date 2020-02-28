@@ -31,6 +31,6 @@ EOF
 SELF="$0"
 BINDIR="${SELF%/*}"
 PREFIX="${BINDIR%/*}"
-. $PREFIX/etc/audioct.conf
+. @@SYSCONFDIR@@/audioct.conf
 
 ape2wav.sh && wav2mp3.sh
