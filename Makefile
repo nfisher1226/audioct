@@ -1,7 +1,7 @@
 -include config.mk
 DESTDIR ?=
 PREFIX ?= /usr/local
-SYSCONFDIR = ${PREFIX}/etc
+SYSCONFDIR ?= ${PREFIX}/etc
 BINDIR = ${PREFIX}/bin
 DSHELL = $(shell which bash || which zsh || which ksh)
 
