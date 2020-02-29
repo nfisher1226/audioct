@@ -47,7 +47,60 @@ if [ "${ALBUM}" = "" ]
   then echo -n "Enter Album name: "
   read ALBUM ; fi
 if [ "${GENRE}" = "" ]
-  then echo -n "Enter Genre: "
+  then
+cat<<EOF
+0 Blues				50 Darkwave				100 Humour
+1 Classic Rock		51 Techno-Industrial	101 Speech
+2 Country			52 Electronic			102 Chanson
+3 Dance				53 Pop-Folk				103 Opera
+4 Disco				54 Eurodance			104 Chamber Music
+5 Funk				55 Dream				105 Sonata
+6 Grunge			56 Southern Rock		106 Symphony
+7 Hip-Hop			57 Comedy				107 Booty Bass
+8 Jazz				58 Cult					108 Primus
+9 Metal				59 Gangsta				109 Porn Groove
+10 New Age			60 Top 40				110 Satire
+11 Oldies			61 Christian Rap		111 Slow Jam
+12 Other			62 Pop/Funk				112 Club
+13 Pop				63 Jungle				113 Tango
+14 R&B				64 Native US			114 Samba
+15 Rap				65 Cabaret				115 Folklore
+16 Reggae			66 New Wave				116 Ballad
+17 Rock				67 Psychedelic			117 Power Ballad
+18 Techno			68 Rave					118 Rhythmic Soul
+19 Industrial		69 Showtunes			119 Freestyle
+20 Alternative		70 Trailer				120 Duet
+21 Ska				71 Lo-Fi				121 Punk Rock
+22 Death Metal		72 Tribal				122 Drum Solo
+23 Pranks			73 Acid Punk			123 A Cappella
+24 Soundtrack		74 Acid Jazz			124 Euro-House
+25 Euro-Techno		75 Polka				125 Dance Hall
+26 Ambient			76 Retro				126 Goa
+27 Trip-Hop			77 Musical				127 Drum & Bass
+28 Vocal			78 Rock & Roll			128 Club-House
+29 Jazz+Funk		79 Hard Rock			129 Hardcore
+30 Fusion			80 Folk					130 Terror
+31 Trance			81 Folk-Rock			131 Indie
+32 Classical		82 National Folk		132 BritPop
+33 Instrumental		83 Swing				133 Negerpunk
+34 Acid				84 Fast Fusion			134 Polsk Punk
+35 House			85 Bebob				135 Beat
+36 Game				86 Latin				136 Christian Gangsta
+37 Sound Clip		87 Revival				137 Heavy Metal
+38 Gospel			88 Celtic				138 Black Metal
+39 Noise			89 Bluegrass			139 Crossover
+40 Alternative Rock	90 Avantgarde			140 Contemporary Christian
+41 Bass				91 Gothic Rock			141 Christian Rock
+42 Soul				92 Progressive Rock		142 Merengue
+43 Punk				93 Psychedelic Rock		143 Salsa
+44 Space			94 Symphonic Rock		144 Thrash Metal
+45 Meditative		95 Slow Rock			145 Anime
+46 Inst. Pop		96 Big Band				146 JPop
+47 Inst. Rock		97 Chorus				147 SynthPop
+48 Ethnic			98 Easy Listening
+49 Gothic			99 Acoustic
+EOF
+  echo -n "Enter Genre Number: "
   read GENRE ; fi
 if [ "${DATE}" = "" ]
   then echo -n "Enter Release Date: "
