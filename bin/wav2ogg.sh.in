@@ -35,6 +35,6 @@ PREFIX="${BINDIR%/*}"
 
 while read w
   do name="$(basename "$w" .wav)"
-  oggenc -q ${ogg_quality} "${w}" -o "${name}.ogg"
+  oggenc -q ${ogg_quality} "${w}" -o "${name}.ogg" && \
   [ "$remove_source" = "true" ] && rm -rf "${w}" || true
 done <<< $(ls -1 *.wav)

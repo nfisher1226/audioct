@@ -34,6 +34,6 @@ PREFIX="${BINDIR%/*}"
 . @@SYSCONFDIR@@/audioct.conf
 
 while read T
-  do mac "${T}" "$(sed 's:.ape:.wav:'<<<${T})" -d
+  do mac "${T}" "$(sed 's:.ape:.wav:'<<<${T})" -d && \
   [ "$remove_source" = "true" ] && rm -rf "${T}" || true
 done <<< $(ls -1 *.ape)

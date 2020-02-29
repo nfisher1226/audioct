@@ -59,6 +59,6 @@ while read T
   lame --preset ${lame_preset} --tt "${TITLE}" \
     --tn "${TRACKNUMBER}/${TTN}" --tl "${ALBUM}" \
     --ta "${ARTIST}" --ty "${DATE}" --tg "${GENRE}" "${T}" \
-    "${TRACKNUMBER} - ${TITLE}.mp3"
+    "${TRACKNUMBER} - ${TITLE}.mp3" && \
   [ "$remove_source" = "true" ] && rm -rf "${T}" || true
 done <<< $(ls -1 *.wav)

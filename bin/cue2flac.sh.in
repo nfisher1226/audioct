@@ -55,7 +55,7 @@ TG="$(grep 'GENRE ' "${CUE}" | head -n 1 | sed -e 's:REM ::' -e 's:GENRE ::')"
 [ "$TY" = "" ] && TY=1900
 [ "$TG" = "" ] && TG=Rock
 
-shnsplit -f "$CUE" -t "%n - %t" "$FILE"
+shnsplit -f "$CUE" -t "%n - %t" "$FILE" && \
 [ "$remove_source" = "true" ] && rm -rf "$FILE" "$CUE" || true
 TTN="$(find . -maxdepth 1 -type f -name '*.wav' | grep -v "$FILE" \
   | wc -l)"
@@ -66,6 +66,6 @@ while read w
   TT="$(cut -f 3- -d ' ' <<< $name)"
   flac ${flac_compression} --tag="TITLE=${TT}" --tag="TRACKNUMBER=${TN}" \
     --tag="TOTALTRACKS=${TTN}" --tag="ALBUM=${TL}" --tag="ARTIST=${TA}" \
-    --tag="DATE=${TY}" --tag="GENRE=${TG}" "${w}"
+    --tag="DATE=${TY}" --tag="GENRE=${TG}" "${w}" && \
   [ "$remove_source" = "true" ] && rm -rf "$w" || true
 done <<< $(ls -1 *.wav | grep -v "$FILE")

@@ -52,8 +52,8 @@ do tmp=$(mktemp)
    [ "${DATE}" = "" ] && DATE=1900
    flac -cd "${flac}" | oggenc -q ${ogg_quality} -t "${TITLE}" -a "${ARTIST}" \
 	-l "${ALBUM}" -d "${DATE}" -N "${TRACKNUMBER}/${TTN}" -G "${GENRE}" \
-	-o "${TRACKNUMBER} - ${TITLE}.ogg" -
-   rm $tmp
+	-o "${TRACKNUMBER} - ${TITLE}.ogg" - && \
    [ "$remove_source" = "true" ] && rm -rf "${flac}" || true
+   rm $tmp
 done <<< $(ls -1 *.flac)
 

@@ -55,7 +55,7 @@ TG="$(grep 'GENRE ' "${CUE}" | head -n 1 | sed -e 's:REM ::' -e 's:GENRE ::')"
 [ "$TY" = "" ] && TY=1900
 [ "$TG" = "" ] && TG=Rock
 
-shnsplit -f "$CUE" -t "%n - %t" "$FILE"
+shnsplit -f "$CUE" -t "%n - %t" "$FILE" && \
 [ "$remove_source" = "true" ] && rm -rf "$FILE" "$CUE" || true
 TTN="$(find . -maxdepth 1 -type f -name '*.wav' | grep -v "$FILE" \
   | wc -l)"
@@ -65,6 +65,6 @@ while read w
   TN="$(cut -f 1 -d ' ' <<< $name)"
   TT="$(cut -f 3- -d ' ' <<< $name)"
   lame --preset ${lame_preset} --tt "$TT" --tn "${TN}/${TTN}" \
-    --tl "$TL" --ta "$TA" --ty "$TY" --tg "$TG" "${w}" "${name}.mp3"
+    --tl "$TL" --ta "$TA" --ty "$TY" --tg "$TG" "${w}" "${name}.mp3" && \
   [ "$remove_source" = "true" ] && rm -rf "$w" || true
 done <<< $(ls -1 *.wav | grep -v "$FILE")
