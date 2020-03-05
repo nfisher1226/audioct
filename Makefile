@@ -68,4 +68,4 @@ distclean: clean
 	unlink config.mk || true
 
 .PHONY: install-conf install-bin install uninstall-bin \
-	uninstall-conf uninstall clean
+	uninstall-conf uninstall clean distclean
