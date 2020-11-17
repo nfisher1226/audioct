@@ -33,8 +33,27 @@ BINDIR="${SELF%/*}"
 PREFIX="${BINDIR%/*}"
 . @@SYSCONFDIR@@/audioct.conf
 
-while read w
-  do name="$(basename "$w" .wav)"
-  oggenc -q ${ogg_quality} "${w}" -o "${name}.ogg" && \
-  [ "$remove_source" = "true" ] && rm -rf "${w}" || true
-done <<< $(ls -1 *.wav)
+# Optionally set variables in a file
+[ -f tags.txt ] && . tags.txt
+
+# Get the total tracks
+TTN="$(find . -maxdepth 1 -type f -name '*.wav' | wc -l | tr -d ' ')"
+
+# User input
+if [ "${ARTIST}" = "" ]
+  then echo -n "Enter Artist name: "
+  read ARTIST ; fi
+if [ "${ALBUM}" = "" ]
+  then echo -n "Enter Album name: "
+  read ALBUM ; fi
+if [ "${GENRE}" = "" ]
+  then echo -n "Enter Genre: "
+  read GENRE ; fi
+if [ "${DATE}" = "" ]
+  then echo -n "Enter Release Date: "
+  read DATE ; fi
+
+source @@LIBDIR@@/audioct_functions.sh
+source $(which env_parallel.@@SHELLBASE@@)
+
+ls -1 *.wav | env_parallel --bar convert_w2o -j ${jobs}

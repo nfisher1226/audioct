@@ -36,9 +36,6 @@ PREFIX="${BINDIR%/*}"
 # Optionally set variables in a file
 [ -f tags.txt ] && . tags.txt
 
-# Get the total tracks
-TTN="$(find . -maxdepth 1 -type f -name '*.m4a' | wc -l | tr -d ' ')"
-
 # User input
 if [ "${ARTIST}" = "" ]
   then echo -n "Enter Artist name: "
@@ -53,12 +50,10 @@ if [ "${DATE}" = "" ]
   then echo -n "Enter Release Date: "
   read DATE ; fi
 
-while read T
-  do TITLE="$(basename "${T}" .m4a | cut -f 3- -d ' ')"
-  TRACKNUMBER="$(cut -f 1 -d ' '<<<${T})"
-  faad --stdio "${T}" | lame --preset ${lame_preset} --tt "${TITLE}" \
-    --tn "${TRACKNUMBER}/${TTN}" --tl "${ALBUM}" \
-    --ta "${ARTIST}" --ty "${DATE}" --tg "${GENRE}" - \
-    "${TRACKNUMBER} - ${TITLE}.mp3" && \
-  [ "$remove_source" = "true" ] && rm -rf "${T}" || true
-done <<< $(ls -1 *.m4a)
+# Total tracks
+TTN="$(find . -maxdepth 1 -type f -name '*.m4a' | wc -l)"
+
+source @@LIBDIR@@/audioct_functions.sh
+source $(which env_parallel.@@SHELLBASE@@)
+
+ls -1 *.m4a | env_parallel --bar convert_m42m -j ${jobs}

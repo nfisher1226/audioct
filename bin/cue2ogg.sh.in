@@ -60,12 +60,6 @@ shnsplit -f "$CUE" -t "%n - %t" "$FILE" && \
 TTN="$(find . -maxdepth 1 -type f -name '*.wav' | grep -v "$FILE" \
   | wc -l)"
 
-while read w
-  do name="$(basename "$w" .wav)"
-  TN="$(cut -f 1 -d ' ' <<< $name)"
-  TT="$(cut -f 3- -d ' ' <<< $name)"
-  oggenc -q ${ogg_quality} -t "${TT}" -a "${TA}" \
-	-l "${TL}" -d "${TY}" -N "${TN}/${TTL}" -G "${TG}" \
-	-o "${TRACKNUMBER} - ${TITLE}.ogg" "${w}" && \
-  [ "$remove_source" = "true" ] && rm -rf "$w" || true
-done <<< $(ls -1 *.wav | grep -v "$FILE")
+source @@LIBDIR@@/audioct_functions.sh
+source $(which env_parallel.@@SHELLBASE@@)
+ls -1 *.wav | grep -v "$FILE" | env_parallel --bar convert_w2o -j ${jobs}

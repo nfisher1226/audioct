@@ -1,53 +1,53 @@
 -include config.mk
-DESTDIR ?=
-PREFIX ?= /usr/local
-SYSCONFDIR ?= ${PREFIX}/etc
-BINDIR = ${PREFIX}/bin
-DSHELL = $(shell which bash || which zsh || which ksh)
+DESTDIR    ?=
+PREFIX     ?= /usr/local
+BINDIR      = $(DESTDIR)$(PREFIX)/bin
+LIBDIR      = $(DESTDIR)$(PREFIX)/lib
+SYSCONFDIR  = $(DESTDIR)$(PREFIX)/etc
+INSTALLDIRS = $(BINDIR) $(LIBDIR) $(SYSCONFDIR)
+DSHELL      = $(shell which bash || which zsh || which ksh)
+SHELLBASE   = $(notdir $(DSHELL))
+VPATH      += bin
+VPATH      += etc
+VPATH      += lib
 
-BIN_OBJS = \
-bin/ape2mp3.sh \
-bin/ape2ogg.sh \
-bin/ape2wav.sh \
-bin/flac2mp3.sh \
-bin/flac2mp3-recursive.sh \
-bin/flac2ogg.sh \
-bin/m4a2mp3.sh \
-bin/wav2mp3.sh \
-bin/wav2ogg.sh \
-bin/cue2mp3.sh \
-bin/cue2ogg.sh \
-bin/cue2flac.sh \
-bin/set-flac-tags.sh \
-bin/set-ogg-tags.sh \
-bin/set-mp3-tags.sh
+SRCS        = $(wildcard bin/*.sh.in)
+OBJS        = $(patsubst bin/%.sh.in,%.sh,$(SRCS))
+BIN_OBJS    = $(patsubst %.sh, $(BINDIR)/%.sh, $(OBJS))
+CONF_OBJS   = audioct.conf
+LIB_OBJS    = audioct_functions.sh
 
-CONF_OBJS = etc/audioct.conf
-
-all: config.mk ${CONF_OBJS} ${BIN_OBJS}
-	@echo "Now type \"make install\"."
+all: config.mk $(CONF_OBJS) $(OBJS)
 
 config.mk:
-	echo PREFIX ?= ${PREFIX} > config.mk
-	echo SYSCONFDIR ?= ${SYSCONFDIR} >> config.mk
+	echo PREFIX ?= $(PREFIX) > config.mk
 
 $(CONF_OBJS): %.conf: %.conf.in
-	sed "s%@@SYSCONFDIR@@%${SYSCONFDIR}%" $< > $@
+	sed "s%@@SYSCONFDIR@@%$(SYSCONFDIR)%" $< > $@
 
-$(BIN_OBJS): %.sh: %.sh.in
-	sed -e "s%@@SHELL@@%${DSHELL}%" \
-	    -e "s%@@SYSCONFDIR@@%${SYSCONFDIR}%" $< > $@
+$(OBJS): %.sh: %.sh.in
+	sed -e "s%@@SHELL@@%$(DSHELL)%" \
+	    -e "s%@@SHELLBASE@@%$(SHELLBASE)%" \
+	    -e "s%@@LIBDIR@@%$(LIBDIR)%" \
+	    -e "s%@@SYSCONFDIR@@%$(SYSCONFDIR)%" $< > $@
 
-install-conf: all
-	install -d ${DESTDIR}${SYSCONFDIR}
-	install -m 644 etc/audioct.conf ${DESTDIR}${SYSCONFDIR}/audioct.conf
+$(BIN_OBJS): $(BINDIR)/%.sh: %.sh | $(BINDIR)
+	install -m0755 $< $@
 
-install-bin: all
-	install -d ${DESTDIR}${BINDIR}
-	for bin in ${BIN_OBJS} ; \
-		do install -m 755 $${bin} ${DESTDIR}${BINDIR} ; done
+$(LIBDIR)/$(LIB_OBJS): $(LIB_OBJS) | $(LIBDIR)
+	install -m0644 $< $@
 
-install: install-bin install-conf
+install-conf: all | $(SYSCONFDIR)
+	install -m 644 audioct.conf $(SYSCONFDIR)/audioct.conf
+
+install-bin: $(BIN_OBJS)
+
+install-lib: $(LIBDIR)/audioct_functions.sh
+
+install: install-bin install-conf install-lib
+
+$(INSTALLDIRS):
+	install -d $@
 
 uninstall-bin:
 	for obj in ${BIN_OBJS} ; \
@@ -58,10 +58,14 @@ uninstall-conf:
 	[ -f ${DESTDIR}${SYSCONFDIR}/audioct.conf ] && \
 		unlink ${DESTDIR}${SYSCONFDIR}/audioct.conf || true
 
-uninstall: uninstall-bin uninstall-conf
+uninstall-lib:
+	[ -f $(DESTDIR)$(LIBDIR)/audioct_functions.sh && \
+		unlink $(DESTDIR)$(LIBDIR)/audioct_functions.sh || true
+
+uninstall: uninstall-bin uninstall-conf uninstall-lib
 
 clean:
-	for obj in ${CONF_OBJS} ${BIN_OBJS} ; \
+	for obj in ${CONF_OBJS} ${OBJS} ; \
 		do [ -f $${obj} ] && unlink $${obj} || true ; done
 
 distclean: clean

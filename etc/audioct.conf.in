@@ -13,6 +13,10 @@
 # true or false
 remove_source=false
 
+# Jobs to run in parallel
+# Default is number of processors
+jobs=$(nproc)
+
 ######   end global section   ######
 ####################################
 

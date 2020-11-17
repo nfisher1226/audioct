@@ -33,7 +33,12 @@ BINDIR="${SELF%/*}"
 PREFIX="${BINDIR%/*}"
 . @@SYSCONFDIR@@/audioct.conf
 
-while read T
-  do mac "${T}" "$(sed 's:.ape:.wav:'<<<${T})" -d && \
-  [ "$remove_source" = "true" ] && rm -rf "${T}" || true
-done <<< $(ls -1 *.ape)
+function convert_a2w {
+  ape="$@"
+  mac "${ape}" "$(sed 's:.ape:.wav:'<<<${ape})" -d && \
+    [ "$remove_source" = "true" ] && rm -rf "${ape}" || true
+}
+
+source $(which env_parallel.@@SHELLBASE@@)
+
+env_parallel --progress convert_a2m ::: *.ape
